@@ -1,0 +1,231 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+$primary-color: #e5077e;
+$secondary-color: #eeeff03f;
+$third-color: #fff;
+$fourth-color: #000;
+$fifth-color: #31313131;
+h1 {
+	margin-top: 20px !important;
+	margin-bottom: 25px !important;
+}
+
+h2 {
+	margin-bottom: 10px;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Roboto", sans-serif;
+}
+
+.primary-btn {
+	display: inline-block;
+	background-color: $third-color !important;
+	color: $primary-color !important;
+	transition: all 0.2 ease-in-out;
+	&:hover {
+		background-color: $third-color !important;
+		opacity: 0.8;
+	}
+}
+
+.secondary-btn {
+	display: inline-block;
+	background-color: $primary-color !important;
+	color: $third-color !important;
+	transition: all 0.2 ease-in-out;
+	&:hover {
+		background-color: $primary-color !important;
+		opacity: 0.8;
+	}
+}
+
+.navbar {
+	background-color: $primary-color !important;
+	.logo {
+		text-decoration: none;
+		color: $third-color;
+		font-size: 25px;
+	}
+}
+.alert {
+	margin-top: 15px;
+}
+.hidden {
+	display: none;
+}
+
+.titles {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	margin-bottom: 1em;
+}
+
+main.Home {
+	h1.title {
+		margin-bottom: 1em !important;
+	}
+	.btn-container {
+		text-align: center;
+		margin-top: 1em;
+		.continue-btn {
+			margin: 0 auto;
+		}
+		.btn-upload-file {
+			width: 350px;
+		}
+	}
+}
+
+.ProgressionMenu {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 2em;
+	.ProgressionMenuStep {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		align-items: center;
+		width: 100%;
+		.cpm {
+			display: inline-block;
+			border: 4px solid $fourth-color;
+			width: 60px;
+			height: 60px;
+			border-radius: 50%;
+			text-align: center;
+			line-height: 60px;
+		}
+		.active {
+			border: 6px solid $primary-color !important;
+		}
+		.passed {
+			color: $fifth-color;
+			border: 4px solid $fifth-color !important;
+		}
+		.arrowIcon {
+			position: absolute;
+			right: 0;
+		}
+	}
+	.pmStep1 {
+	}
+	.pmStep4 {
+		width: 70% !important;
+	}
+}
+.droparea {
+	margin: auto;
+	width: 50%;
+	min-width: 350px;
+	background-color: $primary-color;
+	border-radius: 5px;
+	padding: 10px;
+	margin-top: 15px;
+	.content {
+		color: $third-color;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		padding-block: 20px;
+		background-color: $secondary-color;
+		border: 4px dashed $third-color;
+
+		min-height: 300px;
+		border-radius: 5px;
+		.icon-upload {
+			width: 50px;
+		}
+		.box-text-desc {
+			margin-block: 15px !important;
+		}
+		.file-upload-input {
+			width: 400px;
+		}
+		.error-file-upload {
+			color: red;
+			font-size: 12px;
+			font-weight: bold;
+			margin-top: 10px !important;
+		}
+	}
+}
+
+.uploaded-files {
+	margin-bottom: 3em;
+	header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-direction: column;
+		.downloadAll {
+			margin-bottom: 15px;
+		}
+	}
+	margin-top: 2em;
+}
+
+.form-upload {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.MuiAccordionDetails-root {
+	padding: 0;
+	.tableStudent:nth-child(even) {
+		margin-top: 20px;
+	}
+}
+
+.header-element-table {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+
+	button {
+		&:first-child {
+			margin-right: 10px;
+		}
+	}
+}
+
+// STEP 2 *******************************************
+#StudentsValidation {
+	margin-bottom: 1em;
+	.title {
+		text-align: center;
+		margin-top: 1.5em;
+	}
+	.form-student-validation {
+		.secondary-btn {
+			margin-block: 10px;
+			width: 50%;
+		}
+	}
+	.fail {
+		background-color: crimson;
+	}
+	.mid {
+		background-color: lightcoral;
+	}
+	.ok {
+		background-color: lightgreen;
+	}
+	.error {
+		background-color: red;
+	}
+}
+
+// STEP 4 *******************************************
+
+#resultStudent {
+}
