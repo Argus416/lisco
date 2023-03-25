@@ -5,6 +5,8 @@ services:
     ports:
       - "3000:3000"
     container_name: lisco_front
+    volumes:
+      - /front/node_modules
     depends_on:
       - server
       
@@ -13,4 +15,6 @@ services:
     ports:
       - "3001:3001"
     container_name: lisco_server
+    volumes:
+      - /server/node_modules
     

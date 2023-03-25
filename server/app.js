@@ -20,7 +20,7 @@ app.use(express.static(dir));
 const csvReaderRouter = require("./routes/csvReader");
 app.use("/csv", csvReaderRouter);
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
 	expressListRoutes(app);
 	console.log(`Server is running ${URL}`);
 });
