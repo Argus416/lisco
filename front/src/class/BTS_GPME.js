@@ -256,10 +256,10 @@ export class BTS_GPME {
 											drawCirelAtelierPro(studentsFirstYear[student_index].MOYENNE_MAT_GENERALE, yPosition, firstPage, width);
 											firstPage.drawText(firstYearObservation.text, firstYearObservation.position);
 										} else {
-											firstPage.drawText(firstYearObservation.text, firstYearObservation.position);
-											firstPage.drawText(MoyenneMetierPremiereAnnee.text, MoyenneMetierPremiereAnnee.position);
-											firstPage.drawText(semestreUnPremiereAnnee.text, semestreUnPremiereAnnee.position);
-											firstPage.drawText(semestreDeuxPremiereAnnee.text, semestreDeuxPremiereAnnee.position);
+											firstPage.drawText(firstYearObservation.text?? "", firstYearObservation.position);
+											firstPage.drawText(MoyenneMetierPremiereAnnee.text?? "", MoyenneMetierPremiereAnnee.position);
+											firstPage.drawText(semestreUnPremiereAnnee.text ?? "", semestreUnPremiereAnnee.position);
+											firstPage.drawText(semestreDeuxPremiereAnnee.text?? "", semestreDeuxPremiereAnnee.position);
 										}
 									}
 								}
