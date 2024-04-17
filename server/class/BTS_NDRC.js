@@ -1,7 +1,7 @@
-const lodash = require("lodash");
-const { orderBy } = require("../Helpers/helpers");
+import lodash from "lodash";
+import { orderBy } from "../Helpers/helpers.js";
 
-module.exports = class BTS_NDRC {
+export default class BTS_NDRC {
     constructor(csvObj) {
         this.csvObj = csvObj;
     }

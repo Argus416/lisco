@@ -1,14 +1,10 @@
 "use strict";
+import { csvToObj } from "csv-to-js-parser";
+import BTS_GPME from "../class/BTS_GPME.js";
+import BTS_MCO from "../class/BTS_MCO.js";
+import BTS_NDRC from "../class/BTS_NDRC.js";
 
-const fs = require("fs");
-const csvToObj = require("csv-to-js-parser").csvToObj;
-// https://www.npmjs.com/package/csv-to-js-parser
-const lodash = require("lodash");
-const BTS_NDRC = require("../class/BTS_NDRC.js");
-const BTS_GPME = require("../class/BTS_GPME.js");
-const BTS_MCO = require("../class/BTS_MCO.js");
-
-exports.csvAnalyser = async (req, res) => {
+const csvAnalyser = async (req, res) => {
 	const data = req.body.csvFile;
 
 	// const data = fs.readFileSync("public/data/Test_export_GPME.csv").toString();
@@ -50,3 +46,6 @@ exports.csvAnalyser = async (req, res) => {
 		status: status,
 	});
 };
+
+
+export default { csvAnalyser };

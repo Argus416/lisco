@@ -1,6 +1,6 @@
-const lodash = require("lodash");
+import lodash from "lodash";
 
-exports.orderBy = (studentsYear, orderBasedOn, orderType = "asc") => {
+export const orderBy = (studentsYear, orderBasedOn, orderType = "asc") => {
 	// transform string to integer
 	studentsYear = lodash.each(studentsYear, (item) => {
 		item[orderBasedOn] = parseInt(item[orderBasedOn], 10);
@@ -11,15 +11,15 @@ exports.orderBy = (studentsYear, orderBasedOn, orderType = "asc") => {
 
 	return studentsYear;
 };
-
-exports.arrayToObject = (arr, key) => {
+ 
+export const arrayToObject = (arr, key) => {
 	return arr.reduce((obj, item) => {
 		obj[item[key]] = item;
 		return obj;
 	}, {});
 };
 
-exports.toNumber = (number) => {
+export const toNumber = (number) => {
 	if (number !== null && number !== NaN) {
 		number = number.replace(",", ".");
 		number = parseFloat(number);
@@ -28,7 +28,7 @@ exports.toNumber = (number) => {
 	return number;
 };
 
-exports.toString = (number) => {
+export const toString = (number) => {
 	if (number == NaN) {
 		return "";
 	}

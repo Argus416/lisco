@@ -1,7 +1,7 @@
-const lodash = require("lodash");
-const { orderBy } = require("../Helpers/helpers");
+import lodash from "lodash";
+import { orderBy } from "../Helpers/helpers.js";
 
-module.exports = class BTS_MCO {
+export default class BTS_MCO {
     constructor(csvObj) {
         this.csvObj = csvObj;
     }

@@ -1,7 +1,6 @@
-const lodash = require("lodash");
-const { toNumber, toString } = require("../Helpers/helpers");
+import { toNumber, toString } from "../Helpers/helpers.js";
 
-module.exports = class BTS_NDRC {
+export default class BTS_NDRC {
 	constructor(csvObj) {
 		this.csvObj = csvObj;
 	}
@@ -90,7 +89,7 @@ module.exports = class BTS_NDRC {
 
 			secodYearSorted.U1[0].NUM_ORDRE_MATIERE = 1;
 			secodYearSorted.U2[0].NUM_ORDRE_MATIERE = 2;
-			secodYearSorted["Eco droit"][0].NUM_ORDRE_MATIERE = 3;
+			secodYearSorted["Eco droit"].at(0).NUM_ORDRE_MATIERE = 3;
 			// secodYearSorted["EDM App"][0].NUM_ORDRE_MATIERE = 4;
 			secodYearSorted.Culture_eco_appliquee_et_EDM_App = specifObjectForm(
 				secodYearSorted["Eco droit"][0],

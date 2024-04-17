@@ -1,7 +1,8 @@
-const express = require("express");
+
+import express from "express";
+import csvReaderController from "../controllers/csvReaderController.js";
 const router = express.Router();
-const csvReaderController = require("../controllers/csvReaderController");
 
 router.post("/analyse", csvReaderController.csvAnalyser);
 
-module.exports = router;
+export default router;
