@@ -87,423 +87,426 @@ export class BTS_GPME {
 						let differnceYSecondYear = differnceY;
 
 						// ! Change year here
-						await Promise.all(
-							studentsSecondeYear.map(async (secondYear, student_index) => {
-								console.log(studentIndex);
-								if (student_index < 2) {
-									//First year
-									differnceYFirstYearYear = differnceYFirstYearYear - 1;
+						try {
+							await Promise.all(
+								studentsSecondeYear.map(async (secondYear, student_index) => {
 
-									//Second year
-									differnceYSecondYear = differnceYSecondYear - 0.4;
-									moyenneMetierYSecondYear = moyenneMetierYSecondYear - differnceYSecondYear;
-								} else {
-									//Second year
-									moyenneMetierYSecondYear = moyenneMetierYSecondYear - differnceYSecondYear + 0.6;
-									differnceYSecondYear = differnceYSecondYear - 0.1;
-								}
+									if (student_index < 2) {
+										//First year
+										differnceYFirstYearYear = differnceYFirstYearYear - 1;
 
-								moyenneMetierYFirstYear = moyenneMetierYFirstYear - differnceYFirstYearYear;
-
-								// Difinire la position des coordonnées
-								const Coordonnes = [
-									{
-										text: secondYear.NOM_APPRENANT !== null ? secondYear.NOM_APPRENANT : "",
-										position: {
-											x: width / 2 - 15,
-											y: height / 2 + 353,
-											...configText,
-										},
-									},
-
-									{
-										text: secondYear.PRENOM_APPRENANT !== null ? secondYear.PRENOM_APPRENANT : "",
-										position: {
-											x: width / 2 - 80,
-											y: height / 2 + 330,
-											...configText,
-										},
-									},
-
-									{
-										text: secondYear.DATE_NAISSANCE_APPRENANT !== null ? secondYear.DATE_NAISSANCE_APPRENANT : "",
-
-										position: {
-											x: width / 2 - 116,
-											y: height / 2 + 297,
-											...configText,
-										},
-									},
-
-									{
-										text: "Anglais",
-										position: {
-											x: width / 2 - 20,
-											y: height / 2 + 297,
-											size: configText.size,
-											// font: configText.font,
-											color: configText.color,
-										},
-									},
-								];
-
-								Coordonnes.forEach((coord) => {
-									// Print only one time
-									if (student_index === 1) {
-										firstPage.drawText(coord.text ?? "", coord.position);
+										//Second year
+										differnceYSecondYear = differnceYSecondYear - 0.4;
+										moyenneMetierYSecondYear = moyenneMetierYSecondYear - differnceYSecondYear;
+									} else {
+										//Second year
+										moyenneMetierYSecondYear = moyenneMetierYSecondYear - differnceYSecondYear + 0.6;
+										differnceYSecondYear = differnceYSecondYear - 0.1;
 									}
-								});
 
-								// First year **************************
+									moyenneMetierYFirstYear = moyenneMetierYFirstYear - differnceYFirstYearYear;
+									// Difinire la position des coordonnées
+									const Coordonnes = [
+										{
+											text: secondYear?.NOM_APPRENANT !== null ? secondYear?.NOM_APPRENANT : "",
+											position: {
+												x: width / 2 - 15,
+												y: height / 2 + 353,
+												...configText,
+											},
+										},
 
-								let firstYearObservation = {};
-								let MoyenneMetierPremiereAnnee = {};
-								let semestreUnPremiereAnnee = {};
-								let semestreDeuxPremiereAnnee = {};
+										{
+											text: secondYear?.PRENOM_APPRENANT !== null ? secondYear?.PRENOM_APPRENANT : "",
+											position: {
+												x: width / 2 - 80,
+												y: height / 2 + 330,
+												...configText,
+											},
+										},
 
-								// Puisque les matières de 2ème année sont moins que la 1ère année
-								if (studentsFirstYear[student_index] !== undefined) {
-									MoyenneMetierPremiereAnnee = {
-										text: studentsFirstYear[student_index].MOYENNE_MAT_GENERALE,
+										{
+											text: secondYear?.DATE_NAISSANCE_APPRENANT !== null ? secondYear?.DATE_NAISSANCE_APPRENANT : "",
+
+											position: {
+												x: width / 2 - 116,
+												y: height / 2 + 297,
+												...configText,
+											},
+										},
+
+										{
+											text: "Anglais",
+											position: {
+												x: width / 2 - 20,
+												y: height / 2 + 297,
+												size: configText.size,
+												// font: configText.font,
+												color: configText.color,
+											},
+										},
+									];
+
+									Coordonnes.forEach((coord) => {
+										// Print only one time
+										if (student_index === 1) {
+											firstPage.drawText(coord.text ?? "", coord.position);
+										}
+									});
+
+									// First year **************************
+
+									let firstYearObservation = {};
+									let MoyenneMetierPremiereAnnee = {};
+									let semestreUnPremiereAnnee = {};
+									let semestreDeuxPremiereAnnee = {};
+
+									// Puisque les matières de 2ème année sont moins que la 1ère année
+									if (studentsFirstYear[student_index] !== undefined) {
+										MoyenneMetierPremiereAnnee = {
+											text: studentsFirstYear[student_index].MOYENNE_MAT_GENERALE,
+											position: {
+												x: width / 2 - 8,
+												y: moyenneMetierYFirstYear,
+												...configText,
+											},
+										};
+
+										semestreUnPremiereAnnee = {
+											text: studentsFirstYear[student_index].MOYENNE_1,
+											position: {
+												x: width / 2 - 102,
+												y: moyenneMetierYFirstYear,
+												...configText,
+											},
+										};
+
+										semestreDeuxPremiereAnnee = {
+											text: studentsFirstYear[student_index].MOYENNE_2,
+											position: {
+												x: width / 2 - 58,
+												y: moyenneMetierYFirstYear,
+												...configText,
+											},
+										};
+
+										firstYearObservation = {
+											text: getObservation(studentsFirstYear[student_index].OBSERVATION_ANNUELLE_MATIERE, 8, 8),
+											position: {
+												x: width / 2 + 35,
+												y: moyenneMetierYFirstYear + 5,
+												size: 7,
+												color: rgb(0, 0, 0.5),
+												lineHeight: 12,
+											},
+										};
+									}
+
+									// Second year **************************
+
+									let MoyenneMetierDeuxiemeAnnee = {
+										text: secondYear.MOYENNE_MAT_GENERALE === null ? "" : secondYear.MOYENNE_MAT_GENERALE,
 										position: {
 											x: width / 2 - 8,
-											y: moyenneMetierYFirstYear,
+											y: moyenneMetierYSecondYear,
 											...configText,
 										},
 									};
 
-									semestreUnPremiereAnnee = {
-										text: studentsFirstYear[student_index].MOYENNE_1,
+									let semestreUnDeuxiemeAnnee = {
+										text: secondYear.MOYENNE_1 !== null && secondYear.MOYENNE_1 !== undefined ? secondYear.MOYENNE_1 : "",
 										position: {
 											x: width / 2 - 102,
-											y: moyenneMetierYFirstYear,
+											y: moyenneMetierYSecondYear,
 											...configText,
 										},
 									};
 
-									semestreDeuxPremiereAnnee = {
-										text: studentsFirstYear[student_index].MOYENNE_2,
+									let semestreDeuxDeuxiemeAnnee = {
+										text: secondYear.MOYENNE_2 !== null && secondYear.MOYENNE_2 !== undefined ? secondYear.MOYENNE_2 : "",
 										position: {
 											x: width / 2 - 58,
-											y: moyenneMetierYFirstYear,
+											y: moyenneMetierYSecondYear,
 											...configText,
 										},
 									};
 
-									firstYearObservation = {
-										text: getObservation(studentsFirstYear[student_index].OBSERVATION_ANNUELLE_MATIERE, 8, 8),
+									let secondYearObservation = {
+										text: getObservation(secondYear.OBSERVATION_ANNUELLE_MATIERE, 8, 8),
 										position: {
 											x: width / 2 + 35,
-											y: moyenneMetierYFirstYear + 5,
+											y: moyenneMetierYSecondYear + 5,
 											size: 7,
 											color: rgb(0, 0, 0.5),
 											lineHeight: 12,
 										},
 									};
-								}
 
-								// Second year **************************
+									// Print notes of the first year
+									if (studentsFirstYear[student_index] !== undefined) {
+										if (
+											studentsFirstYear[student_index].MOYENNE_MAT_GENERALE !== null &&
+											studentsFirstYear[student_index].MOYENNE_MAT_GENERALE !== Boolean &&
+											studentsFirstYear[student_index].MOYENNE_MAT_GENERALE !== undefined
+										) {
+											if (studentsFirstYear[student_index].ABREGE_MATIERE === "ATELIER PRO") {
+												// let coief = 0;
+												let yPosition = height / 2 + 95;
 
-								let MoyenneMetierDeuxiemeAnnee = {
-									text: secondYear.MOYENNE_MAT_GENERALE === null ? "" : secondYear.MOYENNE_MAT_GENERALE,
-									position: {
-										x: width / 2 - 8,
-										y: moyenneMetierYSecondYear,
-										...configText,
-									},
-								};
-
-								let semestreUnDeuxiemeAnnee = {
-									text: secondYear.MOYENNE_1 !== null && secondYear.MOYENNE_1 !== undefined ? secondYear.MOYENNE_1 : "",
-									position: {
-										x: width / 2 - 102,
-										y: moyenneMetierYSecondYear,
-										...configText,
-									},
-								};
-
-								let semestreDeuxDeuxiemeAnnee = {
-									text: secondYear.MOYENNE_2 !== null && secondYear.MOYENNE_2 !== undefined ? secondYear.MOYENNE_2 : "",
-									position: {
-										x: width / 2 - 58,
-										y: moyenneMetierYSecondYear,
-										...configText,
-									},
-								};
-
-								let secondYearObservation = {
-									text: getObservation(secondYear.OBSERVATION_ANNUELLE_MATIERE, 8, 8),
-									position: {
-										x: width / 2 + 35,
-										y: moyenneMetierYSecondYear + 5,
-										size: 7,
-										color: rgb(0, 0, 0.5),
-										lineHeight: 12,
-									},
-								};
-
-								// Print notes of the first year
-								if (studentsFirstYear[student_index] !== undefined) {
-									if (
-										studentsFirstYear[student_index].MOYENNE_MAT_GENERALE !== null &&
-										studentsFirstYear[student_index].MOYENNE_MAT_GENERALE !== Boolean &&
-										studentsFirstYear[student_index].MOYENNE_MAT_GENERALE !== undefined
-									) {
-										if (studentsFirstYear[student_index].ABREGE_MATIERE === "ATELIER PRO") {
-											// let coief = 0;
-											let yPosition = height / 2 + 95;
-
-											drawCirelAtelierPro(studentsFirstYear[student_index].MOYENNE_MAT_GENERALE, yPosition, firstPage, width);
-											firstPage.drawText(firstYearObservation.text, firstYearObservation.position);
-										} else {
-											firstPage.drawText(firstYearObservation.text?? "", firstYearObservation.position);
-											firstPage.drawText(MoyenneMetierPremiereAnnee.text?? "", MoyenneMetierPremiereAnnee.position);
-											firstPage.drawText(semestreUnPremiereAnnee.text ?? "", semestreUnPremiereAnnee.position);
-											firstPage.drawText(semestreDeuxPremiereAnnee.text?? "", semestreDeuxPremiereAnnee.position);
+												drawCirelAtelierPro(studentsFirstYear[student_index].MOYENNE_MAT_GENERALE, yPosition, firstPage, width);
+												firstPage.drawText(firstYearObservation.text, firstYearObservation.position);
+											} else {
+												firstPage.drawText(firstYearObservation.text ?? "", firstYearObservation.position);
+												firstPage.drawText(MoyenneMetierPremiereAnnee.text ?? "", MoyenneMetierPremiereAnnee.position);
+												firstPage.drawText(semestreUnPremiereAnnee.text ?? "", semestreUnPremiereAnnee.position);
+												firstPage.drawText(semestreDeuxPremiereAnnee.text ?? "", semestreDeuxPremiereAnnee.position);
+											}
 										}
 									}
-								}
 
-								if (secondYear.ABREGE_MATIERE === "ATELIER PRO") {
-									let yPosition2 = height / 2 - 180;
-									drawCirelAtelierPro(secondYear.MOYENNE_MAT_GENERALE, yPosition2, firstPage, width);
-								} else {
-									firstPage.drawText(semestreUnDeuxiemeAnnee.text, semestreUnDeuxiemeAnnee.position);
-									firstPage.drawText(semestreDeuxDeuxiemeAnnee.text, semestreDeuxDeuxiemeAnnee.position);
+									if (secondYear.ABREGE_MATIERE === "ATELIER PRO") {
+										let yPosition2 = height / 2 - 180;
+										drawCirelAtelierPro(secondYear.MOYENNE_MAT_GENERALE, yPosition2, firstPage, width);
+									} else {
+										firstPage.drawText(semestreUnDeuxiemeAnnee.text, semestreUnDeuxiemeAnnee.position);
+										firstPage.drawText(semestreDeuxDeuxiemeAnnee.text, semestreDeuxDeuxiemeAnnee.position);
 
-									firstPage.drawText(MoyenneMetierDeuxiemeAnnee.text, MoyenneMetierDeuxiemeAnnee.position);
-								}
-
-								firstPage.drawText(secondYearObservation.text, secondYearObservation.position);
-
-								// Decision **************************
-								if (student_index === 0 && eleve.juryDecision.title !== "") {
-									const juryDecisionTF = {
-										text: String(eleve.juryGlobalDecision.tf.percentage),
-										position: {
-											x: width / 2 - 115,
-											y: 80,
-											size: 8.5,
-											color: rgb(0, 0, 0.5),
-											lineHeight: 12,
-										},
-									};
-									const juryDecisionF = {
-										text: String(eleve.juryGlobalDecision.f.percentage),
-										position: {
-											x: width / 2 - 80,
-											y: 80,
-											size: 8.5,
-											color: rgb(0, 0, 0.5),
-											lineHeight: 12,
-										},
-									};
-
-									const juryDecisionDFSP = {
-										text: String(eleve.juryGlobalDecision.dfsp.percentage),
-										position: {
-											x: width / 2 - 45,
-											y: 80,
-											size: 8.5,
-											color: rgb(0, 0, 0.5),
-											lineHeight: 12,
-										},
-									};
-
-									const juryDecisionTOTAL = {
-										text: String(eleve.juryGlobalDecision.total),
-										position: {
-											x: width / 2,
-											y: 80,
-											size: 8.5,
-											color: rgb(0, 0, 0.5),
-											lineHeight: 12,
-										},
-									};
-
-									const juryDecision = {
-										text: String(eleve.juryDecision.title),
-										position: {
-											x: 50,
-											y: 100,
-											size: 10,
-											color: rgb(0, 0, 0.5),
-											lineHeight: 12,
-										},
-									};
-
-									switch (eleve.juryDecision.title) {
-										case "Trés favorable":
-											juryDecision.position.x = 60;
-											break;
-										case "Favorable":
-											juryDecision.position.x = 75;
-											break;
+										firstPage.drawText(MoyenneMetierDeuxiemeAnnee.text, MoyenneMetierDeuxiemeAnnee.position);
 									}
 
-									eleve.yearResult.map((year, yearIndex) => {
-										const yearResult = {
-											text: year.year,
+									firstPage.drawText(secondYearObservation.text, secondYearObservation.position);
+
+									// Decision **************************
+									if (student_index === 0 && eleve.juryDecision.title !== "") {
+										const juryDecisionTF = {
+											text: String(eleve.juryGlobalDecision.tf.percentage),
 											position: {
-												x: width / 2 + 30,
-												y: 100 - 15 * yearIndex,
+												x: width / 2 - 115,
+												y: 80,
+												size: 8.5,
+												color: rgb(0, 0, 0.5),
+												lineHeight: 12,
+											},
+										};
+										const juryDecisionF = {
+											text: String(eleve.juryGlobalDecision.f.percentage),
+											position: {
+												x: width / 2 - 80,
+												y: 80,
 												size: 8.5,
 												color: rgb(0, 0, 0.5),
 												lineHeight: 12,
 											},
 										};
 
-										const presentes = {
-											text: year.presentes,
+										const juryDecisionDFSP = {
+											text: String(eleve.juryGlobalDecision.dfsp.percentage),
 											position: {
-												x: width / 2 + 70,
-												y: 100 - 15 * yearIndex,
+												x: width / 2 - 45,
+												y: 80,
 												size: 8.5,
 												color: rgb(0, 0, 0.5),
 												lineHeight: 12,
 											},
 										};
 
-										const recus = {
-											text: year.recus,
+										const juryDecisionTOTAL = {
+											text: String(eleve.juryGlobalDecision.total),
 											position: {
-												x: width / 2 + 110,
-												y: 100 - 15 * yearIndex,
+												x: width / 2,
+												y: 80,
 												size: 8.5,
 												color: rgb(0, 0, 0.5),
 												lineHeight: 12,
 											},
 										};
 
-										const result = {
-											text: year.result,
+										const juryDecision = {
+											text: String(eleve.juryDecision.title),
 											position: {
-												x: width / 2 + 140,
-												y: 100 - 15 * yearIndex,
-												size: 8.5,
+												x: 50,
+												y: 100,
+												size: 10,
 												color: rgb(0, 0, 0.5),
 												lineHeight: 12,
 											},
 										};
 
-										firstPage.drawText(presentes.text, presentes.position);
-										firstPage.drawText(recus.text, recus.position);
-										firstPage.drawText(result.text, result.position);
-										firstPage.drawText(yearResult.text, yearResult.position);
-									});
+										switch (eleve.juryDecision.title) {
+											case "Trés favorable":
+												juryDecision.position.x = 60;
+												break;
+											case "Favorable":
+												juryDecision.position.x = 75;
+												break;
+										}
 
-									firstPage.drawText(juryDecisionTF.text, juryDecisionTF.position);
-									firstPage.drawText(juryDecisionF.text, juryDecisionF.position);
-									firstPage.drawText(juryDecisionDFSP.text, juryDecisionDFSP.position);
-									firstPage.drawText(juryDecisionTOTAL.text, juryDecisionTOTAL.position);
-									firstPage.drawText(juryDecision.text, juryDecision.position);
-								}
+										eleve.yearResult.map((year, yearIndex) => {
+											const yearResult = {
+												text: year.year,
+												position: {
+													x: width / 2 + 30,
+													y: 100 - 15 * yearIndex,
+													size: 8.5,
+													color: rgb(0, 0, 0.5),
+													lineHeight: 12,
+												},
+											};
 
-								// ! *************************************************
-								// ! Graphic
-								// ! *************************************************
+											const presentes = {
+												text: year.presentes,
+												position: {
+													x: width / 2 + 70,
+													y: 100 - 15 * yearIndex,
+													size: 8.5,
+													color: rgb(0, 0, 0.5),
+													lineHeight: 12,
+												},
+											};
 
-								// Moyenne d'un eleve
-								let averageFirstYear = "";
-								let moyenneGroupMatier = "";
-								if (studentsFirstYear[studentIndex] !== undefined) {
-									averageFirstYear = studentsFirstYear[studentIndex].MOYENNE_MAT_GENERALE;
-								}
-								let moyenne = calculateAverage(averageFirstYear, secondYear.MOYENNE_MAT_GENERALE);
+											const recus = {
+												text: year.recus,
+												position: {
+													x: width / 2 + 110,
+													y: 100 - 15 * yearIndex,
+													size: 8.5,
+													color: rgb(0, 0, 0.5),
+													lineHeight: 12,
+												},
+											};
 
-								moyenneGroupMatier = calculateAverage(
-									students[firstStudentPassedBothYears]["1ere ANNEE"][studentIndex].MOYENNE_MAT_GRPE_ANNUELLE,
-									secondYear.MOYENNE_MAT_GRPE_ANNUELLE
-								);
+											const result = {
+												text: year.result,
+												position: {
+													x: width / 2 + 140,
+													y: 100 - 15 * yearIndex,
+													size: 8.5,
+													color: rgb(0, 0, 0.5),
+													lineHeight: 12,
+												},
+											};
 
-								let averageSubjectsecondYear = secondYear.MOYENNE_MAT_GENERALE;
+											firstPage.drawText(presentes.text, presentes.position);
+											firstPage.drawText(recus.text, recus.position);
+											firstPage.drawText(result.text, result.position);
+											firstPage.drawText(yearResult.text, yearResult.position);
+										});
 
-								// let moyenne = secondYear.MOYENNE_MAT_GENERALE;
-								// let moyenneGroupMatier = secondYear.MOYENNE_MAT_GRPE_ANNUELLE;
-
-								// *******
-								if (secondYear.ABREGE_MATIERE !== "U51" && secondYear.ABREGE_MATIERE !== "U52") {
-									const getDrawLineStudents = getCoordinateGraph(moyenne, studentIndex, secondYear.ABREGE_MATIERE);
-
-									const getDrawLineGroup = getCoordinateGraph(moyenneGroupMatier, studentIndex, secondYear.ABREGE_MATIERE);
-									positionsLineGraphicGroupCommuns.push(getDrawLineGroup);
-									positionsLineGraphicStudentCommuns.push(getDrawLineStudents);
-									if (student_index + 1 === studentsSecondeYear.length) {
-										//drawline group
-										printGraphic(secondePage, positionsLineGraphicGroupCommuns);
-
-										//drawline student
-										printGraphic(secondePage, positionsLineGraphicStudentCommuns, rgb(0.75, 0.2, 0.2));
+										firstPage.drawText(juryDecisionTF.text, juryDecisionTF.position);
+										firstPage.drawText(juryDecisionF.text, juryDecisionF.position);
+										firstPage.drawText(juryDecisionDFSP.text, juryDecisionDFSP.position);
+										firstPage.drawText(juryDecisionTOTAL.text, juryDecisionTOTAL.position);
+										firstPage.drawText(juryDecision.text, juryDecision.position);
 									}
-									studentIndex++;
-								} else {
-									// Enseignements de 2ème année
-									const getDrawLineGroup2 = getCoordinateGraph(
-										secondYear.MOYENNE_MAT_GRPE_ANNUELLE,
-										studentIndexSubjectSecondYearIndex,
-										secondYear.ABREGE_MATIERE
+
+									// ! *************************************************
+									// ! Graphic
+									// ! *************************************************
+
+									// Moyenne d'un eleve
+									let averageFirstYear = "";
+									let moyenneGroupMatier = "";
+									if (studentsFirstYear[studentIndex] !== undefined) {
+										averageFirstYear = studentsFirstYear[studentIndex].MOYENNE_MAT_GENERALE;
+									}
+									let moyenne = calculateAverage(averageFirstYear, secondYear.MOYENNE_MAT_GENERALE);
+
+									moyenneGroupMatier = calculateAverage(
+										students[firstStudentPassedBothYears]["1ere ANNEE"][studentIndex].MOYENNE_MAT_GRPE_ANNUELLE,
+										secondYear.MOYENNE_MAT_GRPE_ANNUELLE
 									);
 
-									const getDrawLineStudents2 = getCoordinateGraph(
-										averageSubjectsecondYear,
-										studentIndexSubjectSecondYearIndex,
-										secondYear.ABREGE_MATIERE
-									);
+									let averageSubjectsecondYear = secondYear.MOYENNE_MAT_GENERALE;
 
-									positionsLineGraphicSubjectsSecondYearGroup.push(getDrawLineGroup2);
-									positionsLineGraphicSubjectsSecondYearStudents.push(getDrawLineStudents2);
+									// let moyenne = secondYear.MOYENNE_MAT_GENERALE;
+									// let moyenneGroupMatier = secondYear.MOYENNE_MAT_GRPE_ANNUELLE;
 
-									studentIndexSubjectSecondYearIndex++;
-								}
+									// *******
+									if (secondYear.ABREGE_MATIERE !== "U51" && secondYear.ABREGE_MATIERE !== "U52") {
+										const getDrawLineStudents = getCoordinateGraph(moyenne, studentIndex, secondYear.ABREGE_MATIERE);
 
-								// Print graphic subjects second year
-								if (positionsLineGraphicGroupCommuns.length === 8) {
-									if (positionsLineGraphicSubjectsSecondYearStudents.length === 2) {
-										if (positionsLineGraphicStudentCommuns[7].start.y !== 0) {
-											//drawline student
-											secondePage.drawLine({
-												start: {
-													x: positionsLineGraphicStudentCommuns[7].start.x,
-													y: positionsLineGraphicStudentCommuns[7].start.y,
-												},
-												end: {
-													x: positionsLineGraphicSubjectsSecondYearStudents[0].start.x,
-													y: positionsLineGraphicSubjectsSecondYearStudents[0].start.y,
-												},
-												thickness: 2,
-												color: rgb(0.75, 0.2, 0.2),
-											});
+										const getDrawLineGroup = getCoordinateGraph(moyenneGroupMatier, studentIndex, secondYear.ABREGE_MATIERE);
+										positionsLineGraphicGroupCommuns.push(getDrawLineGroup);
+										positionsLineGraphicStudentCommuns.push(getDrawLineStudents);
+										if (student_index + 1 === studentsSecondeYear.length) {
+											//drawline group
+											printGraphic(secondePage, positionsLineGraphicGroupCommuns);
 
 											//drawline student
-											printGraphic(secondePage, positionsLineGraphicSubjectsSecondYearStudents, rgb(0.75, 0.2, 0.2));
-										} else {
-											// When students didn't do the first year, print only the subjects of the second year
-											printGraphic(secondePage, positionsLineGraphicSubjectsSecondYearStudents, rgb(0.75, 0.2, 0.2));
+											printGraphic(secondePage, positionsLineGraphicStudentCommuns, rgb(0.75, 0.2, 0.2));
 										}
+										studentIndex++;
+									} else {
+										// Enseignements de 2ème année
+										const getDrawLineGroup2 = getCoordinateGraph(
+											secondYear.MOYENNE_MAT_GRPE_ANNUELLE,
+											studentIndexSubjectSecondYearIndex,
+											secondYear.ABREGE_MATIERE
+										);
 
-										if (positionsLineGraphicGroupCommuns[7].start.y !== 0) {
-											//drawline group
-											secondePage.drawLine({
-												start: {
-													x: positionsLineGraphicGroupCommuns[7].start.x,
-													y: positionsLineGraphicGroupCommuns[7].start.y,
-												},
-												end: {
-													x: positionsLineGraphicSubjectsSecondYearGroup[0].start.x,
-													y: positionsLineGraphicSubjectsSecondYearGroup[0].start.y,
-												},
-												thickness: 2,
-											});
+										const getDrawLineStudents2 = getCoordinateGraph(
+											averageSubjectsecondYear,
+											studentIndexSubjectSecondYearIndex,
+											secondYear.ABREGE_MATIERE
+										);
 
-											//drawline group
-											printGraphic(secondePage, positionsLineGraphicSubjectsSecondYearGroup);
+										positionsLineGraphicSubjectsSecondYearGroup.push(getDrawLineGroup2);
+										positionsLineGraphicSubjectsSecondYearStudents.push(getDrawLineStudents2);
+
+										studentIndexSubjectSecondYearIndex++;
+									}
+
+									// Print graphic subjects second year
+									if (positionsLineGraphicGroupCommuns.length === 8) {
+										if (positionsLineGraphicSubjectsSecondYearStudents.length === 2) {
+											if (positionsLineGraphicStudentCommuns[7].start.y !== 0) {
+												//drawline student
+												secondePage.drawLine({
+													start: {
+														x: positionsLineGraphicStudentCommuns[7].start.x,
+														y: positionsLineGraphicStudentCommuns[7].start.y,
+													},
+													end: {
+														x: positionsLineGraphicSubjectsSecondYearStudents[0].start.x,
+														y: positionsLineGraphicSubjectsSecondYearStudents[0].start.y,
+													},
+													thickness: 2,
+													color: rgb(0.75, 0.2, 0.2),
+												});
+
+												//drawline student
+												printGraphic(secondePage, positionsLineGraphicSubjectsSecondYearStudents, rgb(0.75, 0.2, 0.2));
+											} else {
+												// When students didn't do the first year, print only the subjects of the second year
+												printGraphic(secondePage, positionsLineGraphicSubjectsSecondYearStudents, rgb(0.75, 0.2, 0.2));
+											}
+
+											if (positionsLineGraphicGroupCommuns[7].start.y !== 0) {
+												//drawline group
+												secondePage.drawLine({
+													start: {
+														x: positionsLineGraphicGroupCommuns[7].start.x,
+														y: positionsLineGraphicGroupCommuns[7].start.y,
+													},
+													end: {
+														x: positionsLineGraphicSubjectsSecondYearGroup[0].start.x,
+														y: positionsLineGraphicSubjectsSecondYearGroup[0].start.y,
+													},
+													thickness: 2,
+												});
+
+												//drawline group
+												printGraphic(secondePage, positionsLineGraphicSubjectsSecondYearGroup);
+											}
 										}
 									}
-								}
 
-								// ! *********************************************************
-							})
-						);
+									// ! *********************************************************
+								})
+							);
+						} catch (err) {
+							console.error(err);
+						}
 					}
 
 					let pdfStudent = await pdfDoc.save();

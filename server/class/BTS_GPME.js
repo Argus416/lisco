@@ -1,5 +1,5 @@
+import _ from "lodash";
 import { toNumber, toString } from "../Helpers/helpers.js";
-
 export default class BTS_NDRC {
 	constructor(csvObj) {
 		this.csvObj = csvObj;
@@ -8,8 +8,8 @@ export default class BTS_NDRC {
 	findStudents() {
 		// group by student
 		let obj = this.csvObj.filter((e) => e.NOM_ANNEE);
-		obj = lodash.groupBy(obj, "CODE_APPRENANT");
-		obj = lodash.values(obj);
+		obj = _.groupBy(obj, "CODE_APPRENANT");
+		obj = _.values(obj);
 		return obj;
 	}
 
@@ -20,7 +20,7 @@ export default class BTS_NDRC {
 
 		// Group student by year
 		for (let i = 0; i < students.length; i++) {
-			studentGroupByYear.push(lodash.groupBy(students[i], "NOM_ANNEE"));
+			studentGroupByYear.push(_.groupBy(students[i], "NOM_ANNEE"));
 		}
 
 		// Filter student out who isn't in the seconde year
@@ -40,7 +40,7 @@ export default class BTS_NDRC {
 			let firstYear = student["1ere ANNEE"] ?? [];
 			let secondYear = student["2e ANNEE"] ?? [];
 			let firstYearSorted = [];
-			let secodYearSorted = [];
+			let secondYearSorted = [];
 			let firstYearSortedOrdered = [];
 			let secondYearSortedOrdered = [];
 			// If student passed the first year at the Campus CCI
@@ -83,49 +83,55 @@ export default class BTS_NDRC {
 				delete firstYearSorted["EDM App"];
 			}
 
-			secodYearSorted = groupBy(student["2e ANNEE"], "ABREGE_MATIERE");
+			secondYearSorted = groupBy(student["2e ANNEE"], "ABREGE_MATIERE");
+			secondYearSorted = _.mapValues(secondYearSorted, (value) => value[0]);
 
-			// delete secodYearSorted["ATELIER PRO"];
+			// delete secondYearSorted["ATELIER PRO"];
 
-			secodYearSorted.U1[0].NUM_ORDRE_MATIERE = 1;
-			secodYearSorted.U2[0].NUM_ORDRE_MATIERE = 2;
-			secodYearSorted["Eco droit"].at(0).NUM_ORDRE_MATIERE = 3;
-			// secodYearSorted["EDM App"][0].NUM_ORDRE_MATIERE = 4;
-			secodYearSorted.Culture_eco_appliquee_et_EDM_App = specifObjectForm(
-				secodYearSorted["Eco droit"][0],
-				secodYearSorted.Com[0],
-				secodYearSorted["EDM App"][0]
+			secondYearSorted.U1.NUM_ORDRE_MATIERE = 1;
+			secondYearSorted.U2.NUM_ORDRE_MATIERE = 2;
+			if (secondYearSorted["Eco droit"]) secondYearSorted["Eco droit"].NUM_ORDRE_MATIERE = 3;
+			// secondYearSorted["EDM App"].NUM_ORDRE_MATIERE = 4;
+			console.log({student: secondYear.map((x) => x?.NOM_APPRENANT)})
+			secondYearSorted.Culture_eco_appliquee_et_EDM_App = specifObjectForm(
+				secondYearSorted["Eco droit"],
+				secondYearSorted.Com,
+				secondYearSorted["EDM App"]
 			);
-			secodYearSorted.U51[0].NUM_ORDRE_MATIERE = 6;
-			secodYearSorted.U52[0].NUM_ORDRE_MATIERE = 7;
-			secodYearSorted.U6[0].NUM_ORDRE_MATIERE = 8;
-			secodYearSorted.Com[0].NUM_ORDRE_MATIERE = 9;
-			secodYearSorted["ATELIER PRO"][0].NUM_ORDRE_MATIERE = 10;
+
+			secondYearSorted.U51.NUM_ORDRE_MATIERE = 6;
+			secondYearSorted.U52.NUM_ORDRE_MATIERE = 7;
+			secondYearSorted.U6.NUM_ORDRE_MATIERE = 8;
+			secondYearSorted.Com.NUM_ORDRE_MATIERE = 9;
+			secondYearSorted["ATELIER PRO"].NUM_ORDRE_MATIERE = 10;
 
 			secondYearSortedOrdered = [
-				secodYearSorted.U1[0],
-				secodYearSorted.U2[0],
-				secodYearSorted["Eco droit"][0],
-				// secodYearSorted["EDM App"][0],
-				secodYearSorted.Culture_eco_appliquee_et_EDM_App,
-				secodYearSorted["GRCF-AND-GRCF_EBP"][0],
-				secodYearSorted.U51[0],
-				secodYearSorted.U52[0],
-				secodYearSorted.U6[0],
-				secodYearSorted.Com[0],
-				secodYearSorted["ATELIER PRO"][0],
+				secondYearSorted.U1,
+				secondYearSorted.U2,
+				secondYearSorted["Eco droit"],
+				// secondYearSorted["EDM App"],
+				secondYearSorted.Culture_eco_appliquee_et_EDM_App,
+				secondYearSorted["GRCF-AND-GRCF_EBP"],
+				secondYearSorted.U51,
+				secondYearSorted.U52,
+				secondYearSorted.U6,
+				secondYearSorted.Com,
+				secondYearSorted["ATELIER PRO"],
 			];
 
-			delete secodYearSorted.GRCF;
-			delete secodYearSorted["GRCF EBP"];
-			delete secodYearSorted["EDM App"];
+			delete secondYearSorted.GRCF;
+			delete secondYearSorted["GRCF EBP"];
+			delete secondYearSorted["EDM App"];
 
 			students[index]["2e ANNEE"] = secondYearSortedOrdered;
+			return student;
 		});
+
+		console.log({ students: students.map((e) => e["2e ANNEE"].map((x) => x?.NOM_APPRENANT)) });
 
 		return students;
 	}
-};
+}
 
 const specifObjectForm = (firstSubject, secondObject, thirdObject) => {
 	const template = {
@@ -143,11 +149,14 @@ const specifObjectForm = (firstSubject, secondObject, thirdObject) => {
 		),
 		OBSERVATION_ANNUELLE_MATIERE: thirdObject.OBSERVATION_ANNUELLE_MATIERE,
 	};
+
+	console.log({ template });
+
 	return template;
 };
 
 const groupBy = (array, groupByElement) => {
-	let sorted = lodash.groupBy(array, groupByElement);
+	let sorted = _.groupBy(array, groupByElement);
 	sorted.GRCF[0].MOYENNE_1 = toNumber(sorted.GRCF[0].MOYENNE_1);
 	sorted["GRCF EBP"][0].MOYENNE_1 = toNumber(sorted["GRCF EBP"][0].MOYENNE_1);
 

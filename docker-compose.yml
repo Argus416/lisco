@@ -7,15 +7,15 @@ services:
     container_name: lisco_front
     volumes:
       - /front/node_modules
-    depends_on:
-      - server
+    # depends_on:
+    #   - server
       
-  server:
-    build: ./server
-    ports:
-      - "3001:3001"
-    container_name: lisco_server
-    volumes:
-      - /server/node_modules
-    restart: always
+  # server:
+  #   build: ./server
+  #   ports:
+  #     - "3001:3001"
+  #   container_name: lisco_server
+  #   volumes:
+  #     - /server/node_modules
+  #   restart: always
     
