@@ -17,4 +17,5 @@ services:
     container_name: lisco_server
     volumes:
       - /server/node_modules
+    restart: always
     
